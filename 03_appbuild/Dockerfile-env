@@ -1,0 +1,10 @@
+FROM node:14
+WORKDIR /app
+COPY ./ /app/
+RUN npm install
+
+# 컨테이너 실행 시, 환경변수 유지
+ENV COLOR=red
+USER node
+EXPOSE 3000
+CMD ["npm", "start"]
