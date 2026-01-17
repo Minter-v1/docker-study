@@ -2,6 +2,8 @@
 FROM gradle:7.6.1-jdk17 AS build
 WORKDIR /app
 
+COPY build.gradle settings.gradle ./
+RUN gradle dependencies
 COPY . /app
 RUN gradle clean build
 
@@ -9,8 +11,7 @@ RUN gradle clean build
 FROM eclipse-temurin:17-jre
 WORKDIR /app
 
-COPY --from=build /app/build/libs/Leafy.jar /app/leafy.jar
-
+COPY --from=build /app/build/libs/Leafy-0.0.1-SNAPSHOT.jar /app/leafy.jar
 EXPOSE 8080
 ENTRYPOINT ["java"]
 CMD ["-jar", "leafy.jar"]
